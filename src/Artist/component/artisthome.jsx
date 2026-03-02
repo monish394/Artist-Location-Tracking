@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import API from "../../config/axios";
 
 const ArtistDashboard = () => {
   const [artist, setArtist] = useState(null);
@@ -13,19 +13,7 @@ const ArtistDashboard = () => {
       setLoading(true);
       setError("");
 
-      const token = localStorage.getItem("token");
-      if (!token) {
-        setError("No token found. Please log in again.");
-        setLoading(false);
-        return;
-      }
-
-      const res = await axios.get(
-        "http://localhost:5000/api/artist/dashboard",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      const res = await API.get("/artist/dashboard");
 
       setArtist(res.data.artist || null);
       setStats(res.data.stats || null);
@@ -34,8 +22,8 @@ const ArtistDashboard = () => {
       console.error("Artist dashboard error:", err);
       setError(
         err.response?.data?.msg ||
-          err.response?.data?.error ||
-          "Failed to load artist dashboard."
+        err.response?.data?.error ||
+        "Failed to load artist dashboard."
       );
     } finally {
       setLoading(false);
@@ -246,15 +234,14 @@ const ArtistDashboard = () => {
                       </td>
                       <td className="py-4">
                         <span
-                          className={`px-3 py-1 rounded-full text-xs uppercase ${
-                            displayStatus === "upcoming"
-                              ? "bg-emerald-500/20 text-emerald-300"
-                              : displayStatus === "ongoing"
+                          className={`px-3 py-1 rounded-full text-xs uppercase ${displayStatus === "upcoming"
+                            ? "bg-emerald-500/20 text-emerald-300"
+                            : displayStatus === "ongoing"
                               ? "bg-sky-500/20 text-sky-300"
                               : displayStatus === "completed"
-                              ? "bg-slate-600/40 text-slate-300"
-                              : "bg-red-500/20 text-red-300"
-                          }`}
+                                ? "bg-slate-600/40 text-slate-300"
+                                : "bg-red-500/20 text-red-300"
+                            }`}
                         >
                           {displayStatus}
                         </span>

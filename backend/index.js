@@ -14,6 +14,9 @@ import eventCtrl from "./app/controller/eventctrl.js";
 
 // import fanCtrl from "./app/controller/fanctrl.js";
 
+
+
+//made changessss
 app.use(cors())
 const PORT=process.env.PORT;
 

@@ -35,7 +35,7 @@ const AdminHome = () => {
         console.error(err);
         setError(
           err.response?.data?.msg ||
-            "Failed to load admin dashboard. Please try again."
+          "Failed to load admin dashboard. Please try again."
         );
       } finally {
         setLoading(false);

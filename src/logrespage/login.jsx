@@ -1,7 +1,7 @@
 // src/logrespage/Login.jsx
 import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
+import API from '../config/axios';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -11,12 +11,12 @@ const Login = () => {
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
 
-//   useEffect(()=>{
-//     if(!localStorage.getItem("token")){
-//         return navigate("/login")
-//     }
+  //   useEffect(()=>{
+  //     if(!localStorage.getItem("token")){
+  //         return navigate("/login")
+  //     }
 
-//   },[navigate])
+  //   },[navigate])
 
 
   const handleChange = (e) => {
@@ -43,7 +43,7 @@ const Login = () => {
     setServerError('');
 
     try {
-      const res = await axios.post('http://localhost:5000/api/users/login', {
+      const res = await API.post('/users/login', {
         email: form.email,
         password: form.password,
       });
@@ -57,7 +57,7 @@ const Login = () => {
       // Navigate based on role
       if (user.role === 'fan') navigate('/fan/dashboard');
       else if (user.role === 'artist') navigate('/artist/home');
-      else if(user.role==="admin") navigate("/admin/dashboard")
+      else if (user.role === "admin") navigate("/admin/dashboard")
       else navigate('/login');
 
     } catch (err) {
@@ -88,13 +88,13 @@ const Login = () => {
               <div className="flex-shrink-0 mt-0.5">
                 <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
                   <path d="M12 9v4m0 4h.01M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"
-                    stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
               <p className="flex-1 text-sm">{serverError}</p>
               <button type="button" onClick={() => setServerError('')} className="flex-shrink-0 p-1 hover:bg-red-600 rounded">
                 <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
-                  <path d="M6 18L18 6M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M6 18L18 6M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </button>
             </div>
@@ -105,9 +105,9 @@ const Login = () => {
           <div className="text-center mb-6">
             <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-pink-500 rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg">
               <svg className="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none">
-                <path d="M9 19V6L21 3V16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <circle cx="6" cy="19" r="3" stroke="currentColor" strokeWidth="2"/>
-                <circle cx="18" cy="16" r="3" stroke="currentColor" strokeWidth="2"/>
+                <path d="M9 19V6L21 3V16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <circle cx="6" cy="19" r="3" stroke="currentColor" strokeWidth="2" />
+                <circle cx="18" cy="16" r="3" stroke="currentColor" strokeWidth="2" />
               </svg>
             </div>
             <h1 className="text-xl font-bold text-gray-900 dark:text-white">Welcome back</h1>
@@ -123,9 +123,8 @@ const Login = () => {
                 value={form.email}
                 onChange={handleChange}
                 placeholder="you@example.com"
-                className={`w-full px-4 py-2.5 rounded-lg border-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none ${
-                  errors.email ? 'border-red-300 focus:border-red-500' : 'border-gray-200 dark:border-gray-700 focus:border-indigo-500'
-                }`}
+                className={`w-full px-4 py-2.5 rounded-lg border-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none ${errors.email ? 'border-red-300 focus:border-red-500' : 'border-gray-200 dark:border-gray-700 focus:border-indigo-500'
+                  }`}
               />
               {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email}</p>}
             </div>
@@ -139,9 +138,8 @@ const Login = () => {
                   value={form.password}
                   onChange={handleChange}
                   placeholder="••••••••"
-                  className={`w-full px-4 py-2.5 pr-10 rounded-lg border-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none ${
-                    errors.password ? 'border-red-300 focus:border-red-500' : 'border-gray-200 dark:border-gray-700 focus:border-indigo-500'
-                  }`}
+                  className={`w-full px-4 py-2.5 pr-10 rounded-lg border-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none ${errors.password ? 'border-red-300 focus:border-red-500' : 'border-gray-200 dark:border-gray-700 focus:border-indigo-500'
+                    }`}
                 />
                 <button
                   type="button"

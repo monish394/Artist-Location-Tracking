@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import api from "axios";
+import API from '../config/axios';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -95,7 +95,7 @@ const Register = () => {
         body = { ...body, firstName: form.firstName, lastName: form.lastName, city: form.city, state: form.state };
       }
 
-      const res = await api.post('http://localhost:5000/api/users/register', body);
+      const res = await API.post('/users/register', body);
       localStorage.setItem('token', res.data.token);
       navigate('/login');
     } catch (err) {
@@ -109,7 +109,7 @@ const Register = () => {
 
   return (
     <div className="h-screen w-screen fixed inset-0 flex items-center justify-center p-4 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500">
-      
+
       {/* Background Circles */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-20 -right-20 w-72 h-72 bg-white/10 rounded-full" />
@@ -118,23 +118,23 @@ const Register = () => {
 
       {/* Card */}
       <div className="w-full max-w-md bg-white dark:bg-gray-900 rounded-2xl shadow-2xl relative z-10 overflow-hidden">
-        
+
         {/* Server Error Alert - Fixed at Top */}
         {serverError && (
           <div className="bg-red-500 text-white px-4 py-3 relative animate-pulse">
             <div className="flex items-center gap-3">
               <div className="flex-shrink-0">
                 <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
-                  <path d="M12 9v4m0 4h.01M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M12 9v4m0 4h.01M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
               <p className="text-sm font-medium flex-1">{serverError}</p>
-              <button 
+              <button
                 onClick={() => setServerError('')}
                 className="flex-shrink-0 p-1 hover:bg-red-600 rounded transition-colors"
               >
                 <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
-                  <path d="M6 18L18 6M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M6 18L18 6M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </button>
             </div>
@@ -147,9 +147,9 @@ const Register = () => {
           <div className="text-center mb-6">
             <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-pink-500 rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg">
               <svg className="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none">
-                <path d="M9 19V6L21 3V16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <circle cx="6" cy="19" r="3" stroke="currentColor" strokeWidth="2"/>
-                <circle cx="18" cy="16" r="3" stroke="currentColor" strokeWidth="2"/>
+                <path d="M9 19V6L21 3V16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <circle cx="6" cy="19" r="3" stroke="currentColor" strokeWidth="2" />
+                <circle cx="18" cy="16" r="3" stroke="currentColor" strokeWidth="2" />
               </svg>
             </div>
             <h1 className="text-xl font-bold text-gray-900 dark:text-white">Create Account</h1>
@@ -159,11 +159,10 @@ const Register = () => {
           <div className="flex items-center justify-center gap-2 mb-6">
             {[1, 2, 3].map(i => (
               <div key={i} className="flex items-center">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all ${
-                  step >= i 
-                    ? 'bg-gradient-to-r from-indigo-500 to-pink-500 text-white' 
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all ${step >= i
+                    ? 'bg-gradient-to-r from-indigo-500 to-pink-500 text-white'
                     : 'bg-gray-200 dark:bg-gray-700 text-gray-500'
-                }`}>
+                  }`}>
                   {step > i ? (
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
@@ -178,31 +177,29 @@ const Register = () => {
           </div>
 
           <form onSubmit={handleSubmit}>
-            
+
             {/* Step 1: Role Selection */}
             {step === 1 && (
               <div className="space-y-4">
                 <p className="text-center text-gray-600 dark:text-gray-400 text-sm mb-4">Choose your account type</p>
-                
+
                 <div className="grid grid-cols-2 gap-4">
                   <button
                     type="button"
                     onClick={() => handleRoleSelect('artist')}
-                    className={`flex flex-col items-center gap-3 p-5 rounded-xl border-2 transition-all ${
-                      form.role === 'artist'
+                    className={`flex flex-col items-center gap-3 p-5 rounded-xl border-2 transition-all ${form.role === 'artist'
                         ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/30 shadow-lg'
                         : 'border-gray-200 dark:border-gray-700 hover:border-indigo-300'
-                    }`}
+                      }`}
                   >
-                    <div className={`w-14 h-14 rounded-full flex items-center justify-center transition-all ${
-                      form.role === 'artist'
+                    <div className={`w-14 h-14 rounded-full flex items-center justify-center transition-all ${form.role === 'artist'
                         ? 'bg-gradient-to-br from-indigo-500 to-pink-500 text-white'
                         : 'bg-gray-100 dark:bg-gray-800 text-gray-500'
-                    }`}>
+                      }`}>
                       <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none">
-                        <path d="M9 19V6L21 3V16" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                        <circle cx="6" cy="19" r="3" stroke="currentColor" strokeWidth="2"/>
-                        <circle cx="18" cy="16" r="3" stroke="currentColor" strokeWidth="2"/>
+                        <path d="M9 19V6L21 3V16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                        <circle cx="6" cy="19" r="3" stroke="currentColor" strokeWidth="2" />
+                        <circle cx="18" cy="16" r="3" stroke="currentColor" strokeWidth="2" />
                       </svg>
                     </div>
                     <div className="text-center">
@@ -214,19 +211,17 @@ const Register = () => {
                   <button
                     type="button"
                     onClick={() => handleRoleSelect('fan')}
-                    className={`flex flex-col items-center gap-3 p-5 rounded-xl border-2 transition-all ${
-                      form.role === 'fan'
+                    className={`flex flex-col items-center gap-3 p-5 rounded-xl border-2 transition-all ${form.role === 'fan'
                         ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/30 shadow-lg'
                         : 'border-gray-200 dark:border-gray-700 hover:border-indigo-300'
-                    }`}
+                      }`}
                   >
-                    <div className={`w-14 h-14 rounded-full flex items-center justify-center transition-all ${
-                      form.role === 'fan'
+                    <div className={`w-14 h-14 rounded-full flex items-center justify-center transition-all ${form.role === 'fan'
                         ? 'bg-gradient-to-br from-indigo-500 to-pink-500 text-white'
                         : 'bg-gray-100 dark:bg-gray-800 text-gray-500'
-                    }`}>
+                      }`}>
                       <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none">
-                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" strokeWidth="2"/>
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" strokeWidth="2" />
                       </svg>
                     </div>
                     <div className="text-center">
@@ -235,7 +230,7 @@ const Register = () => {
                     </div>
                   </button>
                 </div>
-                
+
                 {errors.role && <p className="text-center text-sm text-red-500">{errors.role}</p>}
 
                 <button
@@ -245,7 +240,7 @@ const Register = () => {
                 >
                   Continue
                   <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
-                    <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                    <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
                   </svg>
                 </button>
               </div>
@@ -262,9 +257,8 @@ const Register = () => {
                     value={form.email}
                     onChange={handleChange}
                     placeholder="you@example.com"
-                    className={`w-full px-4 py-2.5 rounded-lg border-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm transition-all focus:outline-none ${
-                      errors.email ? 'border-red-300 focus:border-red-500' : 'border-gray-200 dark:border-gray-700 focus:border-indigo-500'
-                    }`}
+                    className={`w-full px-4 py-2.5 rounded-lg border-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm transition-all focus:outline-none ${errors.email ? 'border-red-300 focus:border-red-500' : 'border-gray-200 dark:border-gray-700 focus:border-indigo-500'
+                      }`}
                   />
                   {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email}</p>}
                 </div>
@@ -278,9 +272,8 @@ const Register = () => {
                       value={form.password}
                       onChange={handleChange}
                       placeholder="••••••••"
-                      className={`w-full px-4 py-2.5 pr-10 rounded-lg border-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm transition-all focus:outline-none ${
-                        errors.password ? 'border-red-300 focus:border-red-500' : 'border-gray-200 dark:border-gray-700 focus:border-indigo-500'
-                      }`}
+                      className={`w-full px-4 py-2.5 pr-10 rounded-lg border-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm transition-all focus:outline-none ${errors.password ? 'border-red-300 focus:border-red-500' : 'border-gray-200 dark:border-gray-700 focus:border-indigo-500'
+                        }`}
                     />
                     <button
                       type="button"
@@ -310,9 +303,8 @@ const Register = () => {
                     value={form.confirmPassword}
                     onChange={handleChange}
                     placeholder="••••••••"
-                    className={`w-full px-4 py-2.5 rounded-lg border-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm transition-all focus:outline-none ${
-                      errors.confirmPassword ? 'border-red-300 focus:border-red-500' : 'border-gray-200 dark:border-gray-700 focus:border-indigo-500'
-                    }`}
+                    className={`w-full px-4 py-2.5 rounded-lg border-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm transition-all focus:outline-none ${errors.confirmPassword ? 'border-red-300 focus:border-red-500' : 'border-gray-200 dark:border-gray-700 focus:border-indigo-500'
+                      }`}
                   />
                   {errors.confirmPassword && <p className="text-xs text-red-500 mt-1">{errors.confirmPassword}</p>}
                 </div>
@@ -332,7 +324,7 @@ const Register = () => {
                   >
                     Continue
                     <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
-                      <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                      <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
                     </svg>
                   </button>
                 </div>
@@ -353,9 +345,8 @@ const Register = () => {
                           value={form.artistName}
                           onChange={handleChange}
                           placeholder="Stage name"
-                          className={`w-full px-3 py-2.5 rounded-lg border-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none ${
-                            errors.artistName ? 'border-red-300' : 'border-gray-200 dark:border-gray-700 focus:border-indigo-500'
-                          }`}
+                          className={`w-full px-3 py-2.5 rounded-lg border-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none ${errors.artistName ? 'border-red-300' : 'border-gray-200 dark:border-gray-700 focus:border-indigo-500'
+                            }`}
                         />
                         {errors.artistName && <p className="text-xs text-red-500 mt-1">{errors.artistName}</p>}
                       </div>
@@ -420,9 +411,8 @@ const Register = () => {
                           value={form.firstName}
                           onChange={handleChange}
                           placeholder="John"
-                          className={`w-full px-3 py-2.5 rounded-lg border-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none ${
-                            errors.firstName ? 'border-red-300' : 'border-gray-200 dark:border-gray-700 focus:border-indigo-500'
-                          }`}
+                          className={`w-full px-3 py-2.5 rounded-lg border-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none ${errors.firstName ? 'border-red-300' : 'border-gray-200 dark:border-gray-700 focus:border-indigo-500'
+                            }`}
                         />
                         {errors.firstName && <p className="text-xs text-red-500 mt-1">{errors.firstName}</p>}
                       </div>
@@ -434,9 +424,8 @@ const Register = () => {
                           value={form.lastName}
                           onChange={handleChange}
                           placeholder="Doe"
-                          className={`w-full px-3 py-2.5 rounded-lg border-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none ${
-                            errors.lastName ? 'border-red-300' : 'border-gray-200 dark:border-gray-700 focus:border-indigo-500'
-                          }`}
+                          className={`w-full px-3 py-2.5 rounded-lg border-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none ${errors.lastName ? 'border-red-300' : 'border-gray-200 dark:border-gray-700 focus:border-indigo-500'
+                            }`}
                         />
                         {errors.lastName && <p className="text-xs text-red-500 mt-1">{errors.lastName}</p>}
                       </div>
@@ -485,8 +474,8 @@ const Register = () => {
                     {loading ? (
                       <>
                         <svg className="w-5 h-5 animate-spin" viewBox="0 0 24 24" fill="none">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                         </svg>
                         Creating...
                       </>
@@ -494,7 +483,7 @@ const Register = () => {
                       <>
                         Create Account
                         <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
-                          <path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          <path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                       </>
                     )}
